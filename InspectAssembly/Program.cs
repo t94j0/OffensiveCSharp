@@ -28,6 +28,7 @@ namespace InspectAssembly
         private const string WCF_CLIENT_STRING = "System.ServiceModel.ChannelFactory::CreateChannel";
         private const string JSCRIPT_EVALUATION = "Microsoft.JScript.Eval::JScriptEvaluate";
         private const string POWERSHELL_EVALUATION = "System.Management.Automation.Runspaces.Pipeline::Invoke";
+        private const string PROCESS_START = "System.Diagnostics.Process::Start";
 
         private static string[] wcfServerGadgetNames = { WCF_SERVER_STRING };
 
@@ -490,7 +491,7 @@ MethodAppearance     : {5}", IsDotNetRemoting, RemotingChannel, IsWCFServer, IsW
                 // Disassemble the assembly and check for potentially vulnerable functions
                 foreach (var instruction in method.m.Body.Instructions)
                 {
-                    //Console.WriteLine($"{instruction.OpCode} \"{instruction.Operand}\""); //DEBUG
+                    // Console.WriteLine($"{instruction.OpCode} \"{instruction.Operand}\""); //DEBUG
                     string gadgetName = "";
                     bool isRemoting = false;
                     string remotingChannel = "";
@@ -573,6 +574,9 @@ MethodAppearance     : {5}", IsDotNetRemoting, RemotingChannel, IsWCFServer, IsW
                                 break;
                             case string x when x.Contains(JSCRIPT_EVALUATION):
                                 gadgetName = JSCRIPT_EVALUATION;
+                                break;
+                            case string x when x.Contains(PROCESS_START):
+                                gadgetName = PROCESS_START;
                                 break;
                         }
                     }
