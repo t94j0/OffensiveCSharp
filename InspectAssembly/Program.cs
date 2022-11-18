@@ -26,6 +26,8 @@ namespace InspectAssembly
         private const string WCF_SERVER_STRING = "System.ServiceModel.ServiceHost::AddServiceEndpoint";
         private const string WCF_SERVER_ALT_STRING = "System.ServiceModel.Channels.CommunicationObject::Open";
         private const string WCF_CLIENT_STRING = "System.ServiceModel.ChannelFactory::CreateChannel";
+        private const string JSCRIPT_EVALUATION = "Microsoft.JScript.Eval::JScriptEvaluate";
+        private const string POWERSHELL_EVALUATION = "System.Management.Automation.Runspaces.Pipeline::Invoke";
 
         private static string[] wcfServerGadgetNames = { WCF_SERVER_STRING };
 
@@ -529,6 +531,9 @@ MethodAppearance     : {5}", IsDotNetRemoting, RemotingChannel, IsWCFServer, IsW
                             case string x when x.Contains(XML_SERIALIZER_DESERIALIZE):
                                 gadgetName = XML_SERIALIZER_DESERIALIZE;
                                 break;
+                            case string x when x.Contains(POWERSHELL_EVALUATION):
+                                gadgetName = POWERSHELL_EVALUATION;
+                                break;
                             case string x when x.Contains(WCF_SERVER_STRING):
                                 gadgetName = WCF_SERVER_STRING;
                                 isWCFServer = true;
@@ -565,6 +570,9 @@ MethodAppearance     : {5}", IsDotNetRemoting, RemotingChannel, IsWCFServer, IsW
                                 isRemoting = true;
                                 gadgetName = REGISTER_CHANNEL;
                                 remotingChannel = dnrChannel[5];
+                                break;
+                            case string x when x.Contains(JSCRIPT_EVALUATION):
+                                gadgetName = JSCRIPT_EVALUATION;
                                 break;
                         }
                     }
